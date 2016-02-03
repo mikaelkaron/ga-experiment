@@ -8,7 +8,9 @@ window._cxApi.plugin = window._cxApi.plugin || (function(w, _cxApi) {
     var self = this;
 
     _cxApi.call(self, experimentId, "chooseVariation", [], function(result) {
-      self.tracker.send("event", {
+      self.tracker.send({
+        "hitType": "event",
+        "nonInteraction": true,
         "eventCategory": "experiment",
         "eventAction": "chooseVariation",
         "eventValue": result
@@ -22,7 +24,9 @@ window._cxApi.plugin = window._cxApi.plugin || (function(w, _cxApi) {
     var self = this;
 
     _cxApi.call(self, experimentId, "setChosenVariation", [chosenVariation], function(result) {
-      self.tracker.send("event", {
+      self.tracker.send({
+        "hitType": "event",
+        "nonInteraction": true,
         "eventCategory": "experiment",
         "eventAction": "setChosenVariation",
         "eventValue": result
