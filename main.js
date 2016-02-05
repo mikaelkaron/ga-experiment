@@ -1,12 +1,31 @@
 window._cxApi = window._cxApi || (function(w, d, _cxApi) {
 
-  return _cxApi = function(experimentId, methodName, args, callback, errback) {
+  return _cxApi = function(experimentId, methodName, args, callback, errback, timeout) {
+    var q = [];
 
-    var __cxApi = _cxApi[experimentId] = _cxApi[experimentId] || (function(q) {
+    var __cxApi = _cxApi[experimentId] = _cxApi[experimentId] || (function(src, _q) {
 
       var done = false;
       var head = d.getElementsByTagName("head")[0];
       var script = d.createElement("script");
+
+      var before = function() {
+        done = true;
+
+        if (timeout) {
+          timeout = w.clearTimeout(timeout);
+        }
+
+        script.onload = script.onreadystatechange = script.onerror = null;
+
+        head.removeChild(script);
+      };
+
+      var after = function() {
+        while (_q.length) {
+          __cxApi.apply(_q.shift(), _q.shift());
+        }
+      }
 
       script.onload = script.onreadystatechange = function() {
         var readyState = this.readyState;
@@ -15,7 +34,7 @@ window._cxApi = window._cxApi || (function(w, d, _cxApi) {
           || readyState === "loaded"
           || readyState === "complete")) {
 
-          done = true;
+          before();
 
           __cxApi = _cxApi[experimentId] = (function(cxApi) {
             delete w.cxApi;
@@ -29,24 +48,44 @@ window._cxApi = window._cxApi || (function(w, d, _cxApi) {
             }
           })(w.cxApi);
 
-          script.onload = script.onreadystatechange = null;
-
-          head.removeChild(script);
-
-          while (q.length) {
-            __cxApi.apply(q.shift(), q.shift());
-          }
+          after();
         }
       };
 
-      script.src = "//www.google-analytics.com/cx/api.js?experiment=" + experimentId;
+      script.onerror = function(e) {
+        if (!done) {
+          before();
+
+          __cxApi = _cxApi[experimentId] = function(_method, _args, _callback, _errback) {
+            _errback(new Error("Unable to load [" + src + "]"), e);
+          };
+
+          after();
+        }
+      };
+
+      script.src = src;
 
       head.appendChild(script);
 
       return function() {
-        q.push(this, arguments);
+        _q.push(this, arguments);
       };
-    })([]);
+    })("//www.google-analytics.com/cx/api.js?experiment=" + experimentId, q);
+
+    if (timeout) {
+      timeout = (function(_timeout) {
+        return w.setTimeout(function() {
+          __cxApi = _cxApi[experimentId] = function(_method, _args, _callback, _errback) {
+            _errback(new Error("timeout [" + _timeout + "]"), _timeout);
+          };
+
+          while (q.length) {
+            __cxApi.apply(q.shift(), q.shift());
+          }
+        }, timeout);
+      })(timeout);
+    }
 
     __cxApi.call(this, methodName, args, callback, errback);
   };
