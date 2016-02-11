@@ -1,10 +1,9 @@
 window._cxApi = window._cxApi || (function(w, d, _cxApi) {
 
   return _cxApi = function(experimentId, methodName, args, callback, errback, timeout) {
-    var q = [];
+    var __cxApi = _cxApi[experimentId] = _cxApi[experimentId] || (function(src) {
 
-    var __cxApi = _cxApi[experimentId] = _cxApi[experimentId] || (function(src, _q) {
-
+      var q = [];
       var done = false;
       var head = d.getElementsByTagName("head")[0];
       var script = d.createElement("script");
@@ -12,18 +11,28 @@ window._cxApi = window._cxApi || (function(w, d, _cxApi) {
       var before = function() {
         done = true;
 
-        if (timeout) {
-          timeout = w.clearTimeout(timeout);
-        }
-
         script.onload = script.onreadystatechange = script.onerror = null;
 
         head.removeChild(script);
       };
 
       var after = function() {
-        while (_q.length) {
-          __cxApi.apply(_q.shift(), _q.shift());
+        var _scope;
+        var _args;
+        var _timeout;
+
+        while (q.length) {
+          _scope = q.shift();
+          _args = q.shift();
+          _timeout = q.shift();
+
+          if (_timeout !== true) {
+            if (_timeout) {
+              w.clearTimeout(_timeout);
+            }
+
+            __cxApi.apply(_scope, _args);
+          }
         }
       }
 
@@ -68,25 +77,19 @@ window._cxApi = window._cxApi || (function(w, d, _cxApi) {
 
       head.appendChild(script);
 
-      return function() {
-        _q.push(this, arguments);
-      };
-    })("//www.google-analytics.com/cx/api.js?experiment=" + experimentId, q);
+      return function(_method, _args, _callback, _errback, _timeout) {
+        var index = q.push(this, arguments, _timeout) - 1;
 
-    if (timeout) {
-      timeout = (function(_timeout) {
-        return w.setTimeout(function() {
-          __cxApi = _cxApi[experimentId] = function(_method, _args, _callback, _errback) {
+        if (_timeout) {
+          q[index] = w.setTimeout(function() {
+            q[index] = true;
+
             _errback(new Error("timeout [" + _timeout + "]"), _timeout);
-          };
+          }, _timeout);
+        }
+      };
+    })("//www.google-analytics.com/cx/api.js?experiment=" + experimentId);
 
-          while (q.length) {
-            __cxApi.apply(q.shift(), q.shift());
-          }
-        }, timeout);
-      })(timeout);
-    }
-
-    __cxApi.call(this, methodName, args, callback, errback);
+    __cxApi.call(this, methodName, args, callback, errback, timeout);
   };
 })(window, document);
