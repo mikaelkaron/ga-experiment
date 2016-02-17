@@ -1,6 +1,9 @@
-window._cxApi = window._cxApi || (function(w, d, _cxApi) {
+(function(w, d) {
+  if (w._cxApi) {
+    return;
+  }
 
-  return _cxApi = function(experimentId, methodName, args, callback, errback, config) {
+  var _cxApi = w._cxApi = function(experimentId, methodName, args, callback, errback, config) {
     var __cxApi = _cxApi[experimentId] = _cxApi[experimentId] || (function(src) {
 
       var q = [];
