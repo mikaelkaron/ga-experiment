@@ -1,21 +1,24 @@
-window._cxApi.plugin = window._cxApi.plugin || (function(w, _cxApi) {
-  var noop = function() {};
+(function(w) {
+  if (w._cxApiPlugin) {
+    return;
+  }
 
-  var Experiment = function(tracker, config) {
+  var Experiment = w._cxApiPlugin = function(tracker, config) {
     var self = this;
 
     self.tracker = tracker;
-    self.callback = config.callback || noop;
-    self.errback = config.errback || noop;
-    self.timeout = config.timeout;
+    self.config = config || {};
   };
 
-  Experiment.prototype.do = function(experimentId, methodName, args, callback, errback, timeout) {
+  Experiment.prototype.do = function(experimentId, methodName, args, callback, errback, config) {
+    var noop = function() {};
 
-    return _cxApi.apply(this, [experimentId, methodName, args || [], callback || self.callback, errback || self.errback, timeout || self.timeout]);
+    return w._cxApi.apply(this, [experimentId, methodName, args || [], callback || self.config.callback || noop, errback || self.config.errback || noop, typeof config === "number" ? {
+      "timeout": config
+    } : config || self.config]);
   };
 
-  Experiment.prototype.chooseVariation = function(experimentId, callback, errback, timeout) {
+  Experiment.prototype.chooseVariation = function(experimentId, callback, errback, config) {
     var self = this;
 
     return self.do(experimentId, "chooseVariation", [], function(result) {
@@ -32,10 +35,10 @@ window._cxApi.plugin = window._cxApi.plugin || (function(w, _cxApi) {
       } catch (e) {
         errback(e);
       }
-    }, errback, timeout);
+    }, errback, config);
   };
 
-  Experiment.prototype.setChosenVariation = function(experimentId, chosenVariation, callback, errback, timeout) {
+  Experiment.prototype.setChosenVariation = function(experimentId, chosenVariation, callback, errback, config) {
     var self = this;
 
     return self.do(experimentId, "setChosenVariation", [chosenVariation], function(result) {
@@ -52,14 +55,12 @@ window._cxApi.plugin = window._cxApi.plugin || (function(w, _cxApi) {
       } catch (e) {
         errback(e);
       }
-    }, errback, timeout);
+    }, errback, config);
   };
 
-  Experiment.prototype.getChosenVariation = function(experimentId, callback, errback, timeout) {
-    return this.do(experimentId, "getChosenVariation", [], callback, errback, timeout);
+  Experiment.prototype.getChosenVariation = function(experimentId, callback, errback, config) {
+    return this.do(experimentId, "getChosenVariation", [], callback, errback, config);
   };
 
   w[w["GoogleAnalyticsObject"] || "ga"]("provide", "experiment", Experiment);
-
-  return Experiment;
-})(window, window._cxApi);
+})(window);

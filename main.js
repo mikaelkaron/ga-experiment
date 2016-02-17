@@ -1,6 +1,6 @@
 window._cxApi = window._cxApi || (function(w, d, _cxApi) {
 
-  return _cxApi = function(experimentId, methodName, args, callback, errback, timeout) {
+  return _cxApi = function(experimentId, methodName, args, callback, errback, config) {
     var __cxApi = _cxApi[experimentId] = _cxApi[experimentId] || (function(src) {
 
       var q = [];
@@ -83,19 +83,20 @@ window._cxApi = window._cxApi || (function(w, d, _cxApi) {
 
       head.appendChild(script);
 
-      return function(_method, _args, _callback, _errback, _timeout) {
-        var index = q.push(this, arguments, _timeout) - 1;
+      return function(_method, _args, _callback, _errback, _config) {
+        var timeout = _config.timeout;
+        var index = q.push(this, arguments, timeout) - 1;
 
-        if (_timeout) {
+        if (timeout) {
           q[index] = w.setTimeout(function() {
             q[index] = true;
 
-            _errback(new Error("timeout [" + _timeout + "]"), _timeout);
-          }, _timeout);
+            _errback(new Error("timeout [" + timeout + "]"), timeout);
+          }, timeout);
         }
       };
     })("//www.google-analytics.com/cx/api.js?experiment=" + experimentId);
 
-    __cxApi.call(this, methodName, args, callback, errback, timeout);
+    __cxApi.call(this, methodName, args, callback, errback, config);
   };
 })(window, document);
