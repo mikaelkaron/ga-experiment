@@ -10,14 +10,15 @@ window._cxApi.plugin = window._cxApi.plugin || (function(w, _cxApi) {
     self.timeout = config.timeout;
   };
 
+  Experiment.prototype.do = function(experimentId, methodName, args, callback, errback, timeout) {
+
+    return _cxApi.apply(this, [experimentId, methodName, args || [], callback || self.callback, errback || self.errback, timeout || self.timeout]);
+  };
+
   Experiment.prototype.chooseVariation = function(experimentId, callback, errback, timeout) {
     var self = this;
 
-    callback = callback || self.callback;
-    errback = errback || self.errback;
-    timeout = timeout || self.timeout;
-
-    _cxApi.call(self, experimentId, "chooseVariation", [], function(result) {
+    return self.do(experimentId, "chooseVariation", [], function(result) {
       self.tracker.send({
         "hitType": "event",
         "nonInteraction": true,
@@ -37,11 +38,7 @@ window._cxApi.plugin = window._cxApi.plugin || (function(w, _cxApi) {
   Experiment.prototype.setChosenVariation = function(experimentId, chosenVariation, callback, errback, timeout) {
     var self = this;
 
-    callback = callback || self.callback;
-    errback = errback || self.errback;
-    timeout = timeout || self.timeout;
-
-    _cxApi.call(self, experimentId, "setChosenVariation", [chosenVariation], function(result) {
+    return self.do(experimentId, "setChosenVariation", [chosenVariation], function(result) {
       self.tracker.send({
         "hitType": "event",
         "nonInteraction": true,
@@ -59,13 +56,7 @@ window._cxApi.plugin = window._cxApi.plugin || (function(w, _cxApi) {
   };
 
   Experiment.prototype.getChosenVariation = function(experimentId, callback, errback, timeout) {
-    var self = this;
-
-    callback = callback || self.callback;
-    errback = errback || self.errback;
-    timeout = timeout || self.timeout;
-
-    _cxApi.call(self, experimentId, "getChosenVariation", [], callback, errback, timeout);
+    return this.do(experimentId, "getChosenVariation", [], callback, errback, timeout);
   };
 
   w[w["GoogleAnalyticsObject"] || "ga"]("provide", "experiment", Experiment);
