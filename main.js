@@ -49,8 +49,14 @@ window._cxApi = window._cxApi || (function(w, d, _cxApi) {
             delete w.cxApi;
 
             return function(_methodName, _args, _callback, _errback) {
+              var result = cxApi[_methodName];
+
               try {
-                _callback(cxApi[_methodName].apply(this, _args));
+                if (typeof result === "function") {
+                  result = result.apply(this, _args);
+                }
+
+                _callback(result);
               } catch (e) {
                 _errback(e);
               }
