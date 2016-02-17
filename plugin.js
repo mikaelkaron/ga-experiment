@@ -1,9 +1,9 @@
-(function(w) {
-  if (w._cxApiPlugin) {
+(function(w, _cxApiPlugin) {
+  if (w[_cxApiPlugin]) {
     return;
   }
 
-  var Experiment = w._cxApiPlugin = function(tracker, config) {
+  var Experiment = w[_cxApiPlugin] = function(tracker, config) {
     var self = this;
 
     self.tracker = tracker;
@@ -61,4 +61,4 @@
   };
 
   w[w["GoogleAnalyticsObject"] || "ga"]("provide", "experiment", Experiment);
-})(window);
+})(window, "_cxApiPlugin");

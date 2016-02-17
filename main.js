@@ -1,9 +1,9 @@
-(function(w, d) {
-  if (w._cxApi) {
+(function(w, d, _cxApi) {
+  if (w[_cxApi]) {
     return;
   }
 
-  var _cxApi = w._cxApi = function(experimentId, methodName, args, callback, errback, config) {
+  _cxApi = w[_cxApi] = function(experimentId, methodName, args, callback, errback, config) {
     var __cxApi = _cxApi[experimentId] = _cxApi[experimentId] || (function(src) {
 
       var q = [];
@@ -63,6 +63,8 @@
               } catch (e) {
                 _errback(e);
               }
+
+              return __cxApi;
             }
           })(w.cxApi);
 
@@ -97,9 +99,14 @@
             _errback(new Error("timeout [" + timeout + "]"), timeout);
           }, timeout);
         }
+
+        return __cxApi;
       };
     })("//www.google-analytics.com/cx/api.js?experiment=" + experimentId);
 
     __cxApi.call(this, methodName, args, callback, errback, config);
+
+    return _cxApi;
   };
-})(window, document);
+
+})(window, document, "_cxApi");
