@@ -11,7 +11,7 @@
   };
 
   Experiment.prototype.do = function(experimentId, methodName, args, callback, errback, config) {
-    return w._cxApi.apply(this, [experimentId, methodName, args || [], callback || self.config.callback || function() {}, errback || self.config.errback || function() {}, typeof config === "number" ? {
+    return w._cxApi.apply(this, [experimentId, methodName, args || [], callback || self.config.callback || function() {}, errback || self.config.errback || function() {}, typeof (typeof config === "function" ? config = config.apply(self, arguments) : config) === "number" ? {
       "timeout": config
     } : config || self.config]);
   };
