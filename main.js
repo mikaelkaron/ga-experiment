@@ -1,112 +1,113 @@
-(function(w, d, _cxApi) {
-  if (w[_cxApi]) {
-    return;
+(function(w, d, q, _cxApi) {
+  if (w[_cxApi] && w[_cxApi].q) {
+    q = q.concat(w[_cxApi].q)
   }
 
-  _cxApi = w[_cxApi] = function(experimentId, methodName, args, callback, errback, config) {
-    var __cxApi = _cxApi[experimentId] = _cxApi[experimentId] || (function(src) {
+  _cxApi = _cxApi === w["_cxApiObject"]
+    ? w[_cxApi]
+    : w[w["_cxApiObject"] = _cxApi] = function(experimentId, methodName, methodArgs, callback, errback, config) {
+      var _cxApiExperiment = _cxApi[experimentId]
+        ? _cxApi[experimentId]
+        : _cxApi[experimentId] = (function(head, script, src, queue, done) {
+          var before = function() {
+            done = true;
 
-      var q = [];
-      var done = false;
-      var head = d.getElementsByTagName("head")[0];
-      var script = d.createElement("script");
+            script.onload = script.onreadystatechange = script.onerror = null;
 
-      var before = function() {
-        done = true;
-
-        script.onload = script.onreadystatechange = script.onerror = null;
-
-        head.removeChild(script);
-      };
-
-      var after = function() {
-        var _scope;
-        var _args;
-        var _timeout;
-
-        while (q.length) {
-          _scope = q.shift();
-          _args = q.shift();
-          _timeout = q.shift();
-
-          if (_timeout !== true) {
-            if (_timeout) {
-              w.clearTimeout(_timeout);
-            }
-
-            __cxApi.apply(_scope, _args);
-          }
-        }
-      }
-
-      script.onload = script.onreadystatechange = function() {
-        var readyState = this.readyState;
-
-        if (!done && (!readyState
-          || readyState === "loaded"
-          || readyState === "complete")) {
-
-          before();
-
-          __cxApi = _cxApi[experimentId] = (function(cxApi) {
-            delete w.cxApi;
-
-            return function(_methodName, _args, _callback, _errback) {
-              var result = cxApi[_methodName];
-
-              try {
-                if (typeof result === "function") {
-                  result = result.apply(this, _args);
-                }
-
-                _callback(result);
-              } catch (e) {
-                _errback(e);
-              }
-
-              return __cxApi;
-            }
-          })(w.cxApi);
-
-          after();
-        }
-      };
-
-      script.onerror = function(e) {
-        if (!done) {
-          before();
-
-          __cxApi = _cxApi[experimentId] = function(_method, _args, _callback, _errback) {
-            _errback(new Error("Unable to load [" + src + "]"), e);
+            head.removeChild(script);
           };
 
-          after();
-        }
-      };
+          var after = function() {
+            var scope;
+            var args;
+            var timeout;
 
-      script.src = src;
+            while (queue.length) {
+              scope = queue.shift();
+              args = queue.shift();
+              timeout = queue.shift();
 
-      head.appendChild(script);
+              if (timeout !== true) {
+                if (timeout) {
+                  w.clearTimeout(timeout);
+                }
 
-      return function(_method, _args, _callback, _errback, _config) {
-        var timeout = _config.timeout;
-        var index = q.push(this, arguments, timeout) - 1;
+                _cxApiExperiment.apply(scope, args);
+              }
+            }
+          }
 
-        if (timeout) {
-          q[index] = w.setTimeout(function() {
-            q[index] = true;
+          script.onload = script.onreadystatechange = function() {
+            var readyState = this.readyState;
 
-            _errback(new Error("timeout [" + timeout + "]"), timeout);
-          }, timeout);
-        }
+            if (!done && (!readyState
+              || readyState === "loaded"
+              || readyState === "complete")) {
 
-        return __cxApi;
-      };
-    })("//www.google-analytics.com/cx/api.js?experiment=" + experimentId);
+              before();
 
-    __cxApi.call(this, methodName, args, callback, errback, config);
+              _cxApiExperiment = _cxApi[experimentId] = (function(cxApi) {
+                delete w.cxApi;
 
-    return _cxApi;
-  };
+                return function(_methodName, _methodArgs, _callback, _errback) {
+                  var result = cxApi[_methodName];
 
-})(window, document, "_cxApi");
+                  try {
+                    if (typeof result === "function") {
+                      result = result.apply(this, _methodArgs);
+                    }
+
+                    _callback(result);
+                  } catch (e) {
+                    _errback(e);
+                  }
+
+                  return _cxApiExperiment;
+                }
+              })(w.cxApi);
+
+              after();
+            }
+          };
+
+          script.onerror = function(e) {
+            if (!done) {
+              before();
+
+              _cxApiExperiment = _cxApi[experimentId] = function(_methodName, _methodArgs, _callback, _errback) {
+                _errback(new Error("Unable to load [" + src + "]"), e);
+              };
+
+              after();
+            }
+          };
+
+          script.src = src;
+
+          head.appendChild(script);
+
+          return function(_methodName, _methodArgs, _callback, _errback, _config) {
+            var timeout = _config.timeout;
+            var index = queue.push(this, arguments, timeout) - 1;
+
+            if (timeout) {
+              queue[index] = w.setTimeout(function() {
+                queue[index] = true;
+
+                _errback(new Error("Timeout [" + timeout + "]"), timeout);
+              }, timeout);
+            }
+
+            return _cxApiExperiment;
+          };
+        })(d.getElementsByTagName("head")[0], d.createElement("script"), "//www.google-analytics.com/cx/api.js?experiment=" + experimentId, [], false);
+
+      _cxApiExperiment.call(this, methodName, methodArgs, callback, errback, config);
+
+      return _cxApi;
+    };
+
+  while (q.length) {
+    _cxApi.apply(q.shift(), q.shift());
+  }
+})(window, document, [], "_cxApi");
