@@ -1,4 +1,4 @@
-(function(w, d, q, _cxApi) {
+(function(w, d, _cxApi, q) {
   if (w[_cxApi] && w[_cxApi].q) {
     q = q.concat(w[_cxApi].q)
   }
@@ -110,4 +110,4 @@
   while (q.length) {
     _cxApi.apply(q.shift(), q.shift());
   }
-})(window, document, [], "_cxApi");
+})(window, document, "_cxApi", []);
