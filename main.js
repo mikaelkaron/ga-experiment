@@ -6,6 +6,18 @@
   _cxApi = _cxApi === w["_cxApiObject"]
     ? w[_cxApi]
     : w[w["_cxApiObject"] = _cxApi] = function(experimentId, methodName, methodArgs, callback, errback, config) {
+      if (experimentId === undefined) {
+        throw new Error("no experimentId provided");
+      }
+
+      if (typeof config === "function") {
+        config = config.apply(self, arguments)
+      }
+
+      config = (typeof config === "number") ? {
+        "timeout": config
+      } : config || {};
+
       var _cxApiExperiment = _cxApi[experimentId]
         ? _cxApi[experimentId]
         : _cxApi[experimentId] = (function(head, script, src, queue, done) {
@@ -102,7 +114,7 @@
           };
         })(d.getElementsByTagName("head")[0], d.createElement("script"), "//www.google-analytics.com/cx/api.js?experiment=" + experimentId, [], false);
 
-      _cxApiExperiment.call(this, methodName, methodArgs, callback, errback, config);
+      _cxApiExperiment.call(this, methodName || "cxApi", methodArgs || [], callback || config.callack || function() {}, errback || config.errback || function() {}, config);
 
       return _cxApi;
     };

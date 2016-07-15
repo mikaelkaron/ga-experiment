@@ -4,18 +4,12 @@
   }
 
   var Experiment = w[_cxApiPlugin] = function(tracker, config) {
-    var self = this;
-
-    self.tracker = tracker;
-    self.config = config || {};
+    this.tracker = tracker;
+    this.config = config;
   };
 
   Experiment.prototype.do = function(experimentId, methodName, args, callback, errback, config) {
-    var self = this;
-
-    return w[w["_cxApiObject"] || "_cxApi"].apply(self, [experimentId, methodName, args || [], callback || self.config.callback || function() {}, errback || self.config.errback || function() {}, typeof (typeof config === "function" ? config = config.apply(self, arguments) : config) === "number" ? {
-      "timeout": config
-    } : config || self.config]);
+    return w[w["_cxApiObject"] || "_cxApi"].apply(this, [experimentId, methodName, args, callback, errback, config || this.config]);
   };
 
   Experiment.prototype.chooseVariation = function(experimentId, callback, errback, config) {
