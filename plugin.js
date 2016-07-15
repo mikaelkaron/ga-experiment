@@ -62,8 +62,8 @@
     return this.do(experimentId, "getChosenVariation", [], callback, errback, config);
   };
 
-  Experiment.prototype.getExperiment = function(experimentId, callback, errback, config) {
-    return this.do(experimentId, "getExperiment", [experimentId], callback, errback, config);
+  Experiment.prototype.cxApi = function(experimentId, callback, errback, config) {
+    return this.do(experimentId, "cxApi", [], callback, errback, config);
   };
 
   w[w["GoogleAnalyticsObject"] || "ga"]("provide", "experiment", Experiment);

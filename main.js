@@ -50,7 +50,7 @@
                 delete w.cxApi;
 
                 return function(_methodName, _methodArgs, _callback, _errback) {
-                  var result = _methodName === "getExperiment" ? cxApi : cxApi[_methodName];
+                  var result = _methodName === "cxApi" ? cxApi : cxApi[_methodName];
 
                   try {
                     if (typeof result === "function") {
