@@ -43,8 +43,14 @@
   [data-experiment-variation] {
     display: none;
   }
-  [data-experiment-matches=true] {
-    display: inherit !important
+
+  [data-experiment-variation='0'][data-experiment-chosen='0'],
+  [data-experiment-variation='1'][data-experiment-chosen='1'],
+  [data-experiment-variation='2'][data-experiment-chosen='2'],
+  [data-experiment-variation='3'][data-experiment-chosen='3'],
+  [data-experiment-variation='4'][data-experiment-chosen='4'],
+  [data-experiment-variation='5'][data-experiment-chosen='5'] {
+    display: inherit;
   }
   </style>
 </head>

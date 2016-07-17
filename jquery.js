@@ -31,11 +31,7 @@ jQuery(function($) {
       "variationChosen.experiment": function($event, variation) {
         var $target = $($event.target);
 
-        $target.trigger("matchesVariation.experiment", $target.data("experimentVariation") === variation);
-      },
-
-      "matchesVariation.experiment": function($event, matches) {
-        $($event.target).attr("data-experiment-matches", matches);
+        $($event.target).attr("data-experiment-chosen", variation);
       }
     });
 });
