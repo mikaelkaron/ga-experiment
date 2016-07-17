@@ -24,14 +24,22 @@ jQuery(function($) {
         var $target = $($event.target);
 
         ga("experiment:chooseVariation", experimentId, function(variation) {
-          $target.trigger("variationChosen.experiment", [variation]);
+          $target.trigger("variationChosen.experiment", [experimentId, variation]);
         });
       },
 
-      "variationChosen.experiment": function($event, variation) {
+      "setChosenVariation.experiment": function($event, experimentId, variation) {
         var $target = $($event.target);
 
-        $($event.target).attr("data-experiment-chosen", variation);
+        ga("experiment:setChosenVariation", experimentId, variation, function() {
+          $target.trigger("variationChosen.experiment", [experimentId, variation]);
+        });
+      },
+
+      "variationChosen.experiment": function($event, experimentId, variation) {
+        var $target = $($event.target);
+
+        $($event.target).attr("data-experiment-variation-chosen", variation);
       }
     });
 });
