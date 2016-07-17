@@ -20,6 +20,13 @@ jQuery(function($) {
           } catch (e) {
             (errback || noop)(e, $element);
           }
+        })
+        .end()
+        .end()
+        .attr("data-components", function(index, attr) {
+          return attr.split(/\s/).filter(function(value) {
+            return value !== "experiment";
+          }).join(" ");
         });
     })
     .on({
