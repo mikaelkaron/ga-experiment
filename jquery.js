@@ -29,7 +29,7 @@ jQuery(function($) {
     .on({
       "chooseVariation.experiment": function($event) {
         var $target = $($event.target);
-        var experimentId = $target.data("experimentId");
+        var experimentId = $target.attr("data-experiment-id");
 
         ga("experiment:chooseVariation", experimentId, function(variation) {
           $target.trigger("variationChosen.experiment", [variation]);
@@ -38,7 +38,7 @@ jQuery(function($) {
 
       "setChosenVariation.experiment": function($event, variation) {
         var $target = $($event.target);
-        var experimentId = $target.data("experimentId");
+        var experimentId = $target.attr("data-experiment-id");
 
         ga("experiment:setChosenVariation", experimentId, variation, function() {
           $target.trigger("variationChosen.experiment", [variation]);
