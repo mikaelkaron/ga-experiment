@@ -2,7 +2,7 @@ jQuery(function($) {
   var noop = function() {};
 
   $("html")
-    .on("component:ready", "[data-components~='experiment']", function($event, callback, errback) {
+    .on("ready.component", "[data-components~='experiment']", function($event, callback, errback) {
       var $target = $($event.target);
 
       try {
@@ -13,9 +13,9 @@ jQuery(function($) {
             var $element = $(element);
 
             $element
-              .trigger("component:init", "experiment")
-              .trigger("experiment:chooseVariation", [$($element.parents("[data-experiment-id]").addBack("[data-experiment-id]").get().reverse()).data("experimentId")])
-              .trigger("component:start", "experiment");
+              .trigger("init.component", "experiment")
+              .trigger("chooseVariation.experiment", [$($element.parents("[data-experiment-id]").addBack("[data-experiment-id]").get().reverse()).data("experimentId")])
+              .trigger("start.component", "experiment");
             ;
           }));
       } catch (e) {
@@ -23,21 +23,21 @@ jQuery(function($) {
       }
     })
     .on({
-      "experiment:chooseVariation": function($event, experimentId) {
+      "chooseVariation.experiment": function($event, experimentId) {
         var $target = $($event.target);
 
         ga("experiment:chooseVariation", experimentId, function(variation) {
-          $target.trigger("experiment:variationChosen", [variation]);
+          $target.trigger("variationChosen.experiment", [variation]);
         });
       },
 
-      "experiment:variationChosen": function($event, variation) {
+      "variationChosen.experiment": function($event, variation) {
         var $target = $($event.target);
 
-        $target.trigger("experiment:matchesVariation", $target.data("experimentVariation") === variation);
+        $target.trigger("matchesVariation.experiment", $target.data("experimentVariation") === variation);
       },
 
-      "experiment:matchesVariation": function($event, matches) {
+      "matchesVariation.experiment": function($event, matches) {
         $($event.target).attr("data-experiment-matches", matches);
       }
     });
