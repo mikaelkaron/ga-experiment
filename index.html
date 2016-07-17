@@ -18,7 +18,22 @@
 //  _cxApi("_l9V9SNpRTqy47LLL4v9jQ", "chooseVariation", [], log, error, { timeout: 100});
 //  _cxApi("_l9V9SNpRTqy47LLL4v9jQ", "chooseVariation", [], log, error, { timeout: 500});
 
-  window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
+  (function create(i, s, o, g, r, a, m) {
+    i["GoogleAnalyticsObject"] = r;
+
+    i[r] = i[r] || function() {
+      (i[r].q = i[r].q || []).push(arguments)
+    },
+
+    i[r].l = 1 * new Date();
+
+    a = s.createElement(o),
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, "script", "//www.google-analytics.com/analytics.js", "ga");
+
   ga("create", "UA-69293293-3", "auto");
   ga("send", "pageview");
   ga("require", "experiment");
@@ -37,22 +52,5 @@
 
   <script src="main.js" async="true"></script>
   <script src="plugin.js" async="true"></script>
-  <script>
-  typeof(ga) == "undefined" || typeof(ga) === "function" && window["GoogleAnalyticsObject"] === undefined && (function create(i, s, o, g, r, a, m) {
-    i["GoogleAnalyticsObject"] = r;
-
-    i[r] = i[r] || function() {
-      (i[r].q = i[r].q || []).push(arguments)
-    },
-
-    i[r].l = 1 * new Date();
-
-    a = s.createElement(o),
-    m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m)
-  })(window, document, "script", "//www.google-analytics.com/analytics.js", "ga");
-  </script>
 </body>
 </html>
