@@ -2,10 +2,10 @@ jQuery(function($) {
   var noop = function() {};
 
   $("html")
-    .on("ready.component", "[data-components~='experiment']", function($event, callback, errback) {
+    .on("ready.component", "[data-ready~='experiment']", function($event, callback, errback) {
       $($event.target)
-        .attr("data-components", function(index, attr) {
-          return attr.split(/\s/).filter(function(value) {
+        .attr("data-ready", function(index, attr) {
+          return attr.split(/\s+/).filter(function(value) {
             return value !== "experiment";
           }).join(" ");
         })
