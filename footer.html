@@ -37,7 +37,7 @@
   <script src="main.js" async="true"></script>
   <script src="plugin.js" async="true"></script>
   <script>
-  typeof(ga) === "function" && window["GoogleAnalyticsObject"] === undefined && (function create(i, s, o, g, r, a, m) {
+  !ga["ga"] && typeof(ga) === "function" && window["GoogleAnalyticsObject"] === undefined && (function create(i, s, o, g, r, a, m) {
     i["GoogleAnalyticsObject"] = r;
 
     i[r] = i[r] || function() {
