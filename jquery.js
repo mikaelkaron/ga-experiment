@@ -45,6 +45,15 @@ jQuery(function($) {
         });
       },
 
+      "getChosenVariation.experiment": function($event) {
+        var $target = $($event.target);
+        var experimentId = $target.attr("data-experiment-id");
+
+        ga("experiment:getChosenVariation", experimentId, function(variation) {
+          $target.trigger("variationChosen.experiment", [variation]);
+        });
+      },
+
       "variationChosen.experiment": function($event, variation) {
         $($event.target).attr("data-experiment-variation-chosen", variation);
       }
