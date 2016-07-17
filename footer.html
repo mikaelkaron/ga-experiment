@@ -2,9 +2,6 @@
 <html lang="en-US">
 <head>
   <script>
-  var log = console.log.bind(console);
-  var error = console.error.bind(console);
-
   window._cxApi = window._cxApi || function () { (_cxApi.q = _cxApi.q || []).push(this, arguments) };
   _cxApi("kydMaPQ6TuqWr1H7y4clDQ");
   _cxApi("F4kE3XLcT0aH9z7d5xBcew");
@@ -14,9 +11,12 @@
   _cxApi("u_c--YMlRr2H3tS4JCVNMg");
   _cxApi("05jabbIlR4aH5CJPEg4Lzw");
   _cxApi("AlPdNSzYQhGN-U3jVy-6IA");
-//  _cxApi("_l9V9SNpRTqy47LLL4v9jQ", "chooseVariation", [], log, error, { timeout: 300});
-//  _cxApi("_l9V9SNpRTqy47LLL4v9jQ", "chooseVariation", [], log, error, { timeout: 100});
-//  _cxApi("_l9V9SNpRTqy47LLL4v9jQ", "chooseVariation", [], log, error, { timeout: 500});
+  </script>
+  <script src="main.js" async="true"></script>
+
+  <script>
+  var log = console.log.bind(console);
+  var error = console.error.bind(console);
 
   window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
   ga("create", "UA-69293293-3", "auto");
@@ -29,13 +29,8 @@
   ga("experiment:chooseVariation", "u_c--YMlRr2H3tS4JCVNMg", log, error);
   ga("experiment:chooseVariation", "05jabbIlR4aH5CJPEg4Lzw", log, error);
   ga("experiment:chooseVariation", "AlPdNSzYQhGN-U3jVy-6IA", log, error);
-//  ga("experiment:chooseVariation", "_l9V9SNpRTqy47LLL4v9jQ", log, error, 300);
-//  ga("experiment:chooseVariation", "_l9V9SNpRTqy47LLL4v9jQ", log, error, { "timeout": 100 });
-//  ga("experiment:chooseVariation", "_l9V9SNpRTqy47LLL4v9jQ", log, error, function () { return 500; });
   </script>
-
-  <script src="main.js" async="true"></script>
-  <script src="plugin.js" async="true"></script>
+  <script src="analytics.js" async="true"></script>
 </head>
 <body>
   <script>
