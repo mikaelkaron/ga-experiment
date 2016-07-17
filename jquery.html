@@ -31,7 +31,13 @@
   <script src="analytics.js" async="true"></script>
 
   <script src="http://code.jquery.com/jquery-3.1.0.slim.min.js" integrity="sha256-cRpWjoSOw5KcyIOaZNo4i6fZ9tKPhYYb6i5T9RSVJG8=" crossorigin="anonymous"></script>
-  <script src="jquery.js" async="true"></script>
+  <script src="jquery.js"></script>
+
+  <script>
+  jQuery(function($) {
+    $("[data-components]").trigger("component:ready");
+  });
+  </script>
 
   <style>
   [data-experiment-variation] {
@@ -42,7 +48,7 @@
   }
   </style>
 </head>
-<body>
+<body data-components="experiment">
   <div data-experiment-id="kydMaPQ6TuqWr1H7y4clDQ">
     <div data-experiment-variation="0">kydMaPQ6TuqWr1H7y4clDQ:0</div>
     <div data-experiment-variation="1">kydMaPQ6TuqWr1H7y4clDQ:1</div>
