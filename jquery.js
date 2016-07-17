@@ -3,24 +3,21 @@ jQuery(function($) {
 
   $("html")
     .on("ready.component", "[data-components~='experiment']", function($event, callback, errback) {
-      var $target = $($event.target);
+      $($event.target)
+        .find("[data-experiment-variation]")
+        .addBack("[data-experiment-variation]")
+        .each(function(index, element) {
+          var $element = $(element);
 
-      try {
-        (callback || noop)($target
-          .find("[data-experiment-variation]")
-          .addBack("[data-experiment-variation]")
-          .each(function(index, element) {
-            var $element = $(element);
-
-            $element
+          try {
+            (callback || noop)($element
               .trigger("init.component", "experiment")
               .trigger("chooseVariation.experiment", [$($element.parents("[data-experiment-id]").addBack("[data-experiment-id]").get().reverse()).data("experimentId")])
-              .trigger("start.component", "experiment");
-            ;
-          }));
-      } catch (e) {
-        (errback || noop)(e, $target);
-      }
+              .trigger("start.component", "experiment"));
+          } catch (e) {
+            (errback || noop)(e, $element);
+          }
+        });
     })
     .on({
       "chooseVariation.experiment": function($event, experimentId) {
