@@ -4,29 +4,28 @@ jQuery(function($) {
   $("html")
     .on("ready.component", "[data-components~='experiment']", function($event, callback, errback) {
       $($event.target)
-        .find("[data-experiment-variation]")
-        .addBack("[data-experiment-variation]")
-        .each(function(index, element) {
-          var $element = $(element);
-
-          try {
-            (callback || noop)($element
-              .trigger("initialize.component", "experiment")
-              .trigger("chooseVariation.experiment")
-              .trigger("start.component", "experiment"));
-          } catch (e) {
-            (errback || noop)(e, $element);
-          }
-        })
-        .end()
-        .end()
         .attr("data-components", function(index, attr) {
           return attr.split(/\s/).filter(function(value) {
             return value !== "experiment";
           }).join(" ");
-        });
+        })
+        .find("[data-experiment-variation]")
+        .addBack("[data-experiment-variation]")
+        .trigger("ready.experiment", [callback, errback]);
     })
     .on({
+      "ready.experiment": function($event, callback, errback) {
+        var $target = $($event.target);
+
+        try {
+          (callback || noop)($target
+            .trigger("initialize.component", "experiment")
+            .trigger("chooseVariation.experiment"));
+        } catch (e) {
+          (errback || noop)(e, $target);
+        }
+      },
+
       "chooseVariation.experiment": function($event) {
         var $target = $($event.target);
         var experimentId = $target.attr("data-experiment-id");
@@ -57,5 +56,5 @@ jQuery(function($) {
       "variationChosen.experiment": function($event, variation) {
         $($event.target).attr("data-experiment-variation-chosen", variation);
       }
-    });
+    }, "[data-experiment-id]");
 });
