@@ -112,7 +112,7 @@
 
             return _cxApiExperiment;
           };
-        })(d.getElementsByTagName("head")[0], d.createElement("script"), "//www.google-analytics.com/cx/api.js?experiment=" + experimentId, [], false);
+        })(d.getElementsByTagName("head")[0], d.createElement("script"), "https://www.google-analytics.com/cx/api.js?experiment=" + experimentId, [], false);
 
       _cxApiExperiment.call(this, methodName || "cxApi", methodArgs || [], callback || config.callack || function() {}, errback || config.errback || function() {}, config);
 
