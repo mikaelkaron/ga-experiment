@@ -28,27 +28,24 @@ jQuery(function($) {
 
       "chooseVariation.experiment": function($event) {
         var $target = $($event.target);
-        var experimentId = $target.attr("data-experiment-id");
 
-        ga("experiment:chooseVariation", experimentId, function(variation) {
+        ga("experiment:chooseVariation", $target.attr("data-experiment-id"), function(variation) {
           $target.trigger("variationChosen.experiment", [variation]);
         });
       },
 
       "setChosenVariation.experiment": function($event, variation) {
         var $target = $($event.target);
-        var experimentId = $target.attr("data-experiment-id");
 
-        ga("experiment:setChosenVariation", experimentId, variation, function() {
+        ga("experiment:setChosenVariation", $target.attr("data-experiment-id"), variation, function() {
           $target.trigger("variationChosen.experiment", [variation]);
         });
       },
 
       "getChosenVariation.experiment": function($event) {
         var $target = $($event.target);
-        var experimentId = $target.attr("data-experiment-id");
 
-        ga("experiment:getChosenVariation", experimentId, function(variation) {
+        ga("experiment:getChosenVariation", $target.attr("data-experiment-id"), function(variation) {
           $target.trigger("variationChosen.experiment", [variation]);
         });
       },
