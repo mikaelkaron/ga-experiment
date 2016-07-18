@@ -19,7 +19,7 @@ jQuery(function($) {
 
         try {
           (callback || noop)($target
-            .trigger("initialize.component", "experiment")
+            .trigger("start.component", "experiment")
             .trigger("chooseVariation.experiment"));
         } catch (e) {
           (errback || noop)(e, $target);
