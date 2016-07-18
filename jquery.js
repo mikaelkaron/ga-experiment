@@ -11,7 +11,7 @@ jQuery(function($) {
         })
         .find("[data-experiment-variation]")
         .addBack("[data-experiment-variation]")
-        .trigger("ready.experiment", [callback, errback || noop]);
+        .trigger("ready.experiment", [callback, errback]);
     })
     .on({
       "ready.experiment": function($event, callback, errback) {
@@ -22,7 +22,7 @@ jQuery(function($) {
             .trigger("start.component", "experiment")
             .trigger("chooseVariation.experiment", [callback, errback]);
         } catch (e) {
-          errback(e, $target);
+          (errback || noop)(e, $target);
         }
       },
 
