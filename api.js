@@ -107,19 +107,23 @@
                 queue[index] = true;
 
                 _errback(new Error("Timeout [" + timeout + "]"), timeout);
-              }, timeout);
+              }, timeout - (new Date() - this.ts));
             }
 
             return _cxApiExperiment;
           };
         })(d.getElementsByTagName("head")[0], d.createElement("script"), "https://www.google-analytics.com/cx/api.js?experiment=" + experimentId, [], false);
 
-      _cxApiExperiment.call(this, methodName || "cxApi", methodArgs || [], callback || config.callack || function() {}, errback || config.errback || function() {}, config);
+      _cxApiExperiment.call({
+        "ts": new Date()
+      }, methodName || "cxApi", methodArgs || [], callback || config.callback || function() {}, errback || config.errback || function() {}, config);
 
       return _cxApi;
     };
 
   while (q.length) {
-    _cxApi.apply(q.shift(), q.shift());
+    _cxApi.apply({
+      "ts": q.shift()
+    }, q.shift());
   }
 })(window, document, "_cxApi", []);
