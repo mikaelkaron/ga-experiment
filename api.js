@@ -86,7 +86,7 @@
             if (!done) {
               before();
 
-              _cxApiExperiment = _cxApi[experimentId] = function(_methodName, _methodArgs, _callback, _errback) {
+              _cxApiExperiment = _cxApi[experimentId] = function(_methodName, _methodArgs, _config, _callback, _errback) {
                 _errback(new Error("Unable to load [" + src + "]"), e);
               };
 
