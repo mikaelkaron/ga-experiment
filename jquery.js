@@ -7,7 +7,8 @@ jQuery(function($) {
         var $target = $($event.target);
 
         ga("experiment:chooseVariation", $target.attr("data-experiment-id"), function(variation) {
-          $target.trigger("variationChosen.experiment", [variation, callback]);
+          $target.trigger("variationChosen.experiment", [variation]);
+          (callback || noop)(variation);
         }, errback);
       },
 
@@ -15,7 +16,8 @@ jQuery(function($) {
         var $target = $($event.target);
 
         ga("experiment:setChosenVariation", $target.attr("data-experiment-id"), variation, function() {
-          $target.trigger("variationChosen.experiment", [variation, callback]);
+          $target.trigger("variationChosen.experiment", [variation]);
+          (callback || noop)(variation);
         }, errback);
       },
 
@@ -23,13 +25,9 @@ jQuery(function($) {
         var $target = $($event.target);
 
         ga("experiment:getChosenVariation", $target.attr("data-experiment-id"), function(variation) {
-          $target.trigger("variationChosen.experiment", [variation, callback]);
+          $target.trigger("variationChosen.experiment", [variation]);
+          (callback || noop)(variation);
         }, errback);
-      },
-
-      "variationChosen.experiment": function($event, variation, callback) {
-        $($event.target).attr("data-experiment-variation-chosen", variation);
-        (callback || noop)(variation);
       }
     }, "[data-experiment-id]");
 });
