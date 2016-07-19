@@ -35,7 +35,7 @@
 
   <script>
   jQuery(function($) {
-    $("[data-ready]").trigger("ready.component");
+    $("[data-experiment-id]").trigger("chooseVariation.experiment");
   });
   </script>
 
@@ -44,24 +44,24 @@
     display: none;
   }
 
-  [data-experiment-variation='0'][data-experiment-variation-chosen='0'],
-  [data-experiment-variation='1'][data-experiment-variation-chosen='1'],
-  [data-experiment-variation='2'][data-experiment-variation-chosen='2'],
-  [data-experiment-variation='3'][data-experiment-variation-chosen='3'],
-  [data-experiment-variation='4'][data-experiment-variation-chosen='4'],
-  [data-experiment-variation='5'][data-experiment-variation-chosen='5'] {
+  [data-experiment-variation-chosen='0'] > [data-experiment-variation='0'],
+  [data-experiment-variation-chosen='1'] > [data-experiment-variation='1'],
+  [data-experiment-variation-chosen='2'] > [data-experiment-variation='2'],
+  [data-experiment-variation-chosen='3'] > [data-experiment-variation='3'],
+  [data-experiment-variation-chosen='4'] > [data-experiment-variation='4'],
+  [data-experiment-variation-chosen='5'] > [data-experiment-variation='5'] {
     display: inherit;
   }
   </style>
 </head>
-<body data-ready="experiment">
-  <div data-experiment-id="kydMaPQ6TuqWr1H7y4clDQ" data-experiment-variation="0">kydMaPQ6TuqWr1H7y4clDQ:0</div>
-  <div data-experiment-id="kydMaPQ6TuqWr1H7y4clDQ" data-experiment-variation="1">kydMaPQ6TuqWr1H7y4clDQ:1</div>
-  <div data-experiment-id="F4kE3XLcT0aH9z7d5xBcew" data-experiment-variation="0">F4kE3XLcT0aH9z7d5xBcew:0</div>
-  <div data-experiment-id="F4kE3XLcT0aH9z7d5xBcew" data-experiment-variation="1">F4kE3XLcT0aH9z7d5xBcew:1</div>
-  <div data-experiment-id="kydMaPQ6TuqWr1H7y4clDQ" data-experiment-variation="0">kydMaPQ6TuqWr1H7y4clDQ:0</div>
-  <div data-experiment-id="kydMaPQ6TuqWr1H7y4clDQ" data-experiment-variation="1">kydMaPQ6TuqWr1H7y4clDQ:1</div>
-  <div data-experiment-id="F4kE3XLcT0aH9z7d5xBcew" data-experiment-variation="0">F4kE3XLcT0aH9z7d5xBcew:0</div>
-  <div data-experiment-id="F4kE3XLcT0aH9z7d5xBcew" data-experiment-variation="1">F4kE3XLcT0aH9z7d5xBcew:1</div>
+<body>
+  <div data-experiment-id="kydMaPQ6TuqWr1H7y4clDQ">
+    <div data-experiment-variation="0">kydMaPQ6TuqWr1H7y4clDQ:0</div>
+    <div data-experiment-variation="1">kydMaPQ6TuqWr1H7y4clDQ:1</div>
+  </div>
+  <div data-experiment-id="F4kE3XLcT0aH9z7d5xBcew">
+    <div data-experiment-variation="0">F4kE3XLcT0aH9z7d5xBcew:0</div>
+    <div data-experiment-variation="1">F4kE3XLcT0aH9z7d5xBcew:1</div>
+  </div>
 </body>
 </html>

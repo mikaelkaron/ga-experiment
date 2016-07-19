@@ -2,30 +2,7 @@ jQuery(function($) {
   var noop = function() {};
 
   $(document)
-    .on("ready.component", "[data-ready~='experiment']", function($event, callback, errback) {
-      $($event.target)
-        .attr("data-ready", function(index, attr) {
-          return attr.split(/\s+/).filter(function(value) {
-            return value !== "experiment";
-          }).join(" ");
-        })
-        .find("[data-experiment-variation]")
-        .addBack("[data-experiment-variation]")
-        .trigger("ready.experiment", [callback, errback]);
-    })
     .on({
-      "ready.experiment": function($event, callback, errback) {
-        var $target = $($event.target);
-
-        try {
-          $target
-            .trigger("start.component", "experiment")
-            .trigger("chooseVariation.experiment", [callback, errback]);
-        } catch (e) {
-          (errback || noop)(e, $target);
-        }
-      },
-
       "chooseVariation.experiment": function($event, callback, errback) {
         var $target = $($event.target);
 
