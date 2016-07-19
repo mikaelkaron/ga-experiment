@@ -1,7 +1,7 @@
 jQuery(function($) {
   var noop = function() {};
 
-  $("html")
+  $(document)
     .on("ready.component", "[data-ready~='experiment']", function($event, callback, errback) {
       $($event.target)
         .attr("data-ready", function(index, attr) {
