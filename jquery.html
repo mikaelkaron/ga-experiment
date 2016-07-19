@@ -35,7 +35,12 @@
 
   <script>
   jQuery(function($) {
-    $("[data-experiment-id]").trigger("chooseVariation.experiment");
+    $(document)
+      .on("variationChosen.experiment", function($event, variation) {
+        $($event.target).attr("data-experiment-variation-chosen", variation);
+      })
+      .find("[data-experiment-id]")
+      .trigger("chooseVariation.experiment");
   });
   </script>
 
