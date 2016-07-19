@@ -5,7 +5,7 @@
 
   _cxApi = _cxApi === w["_cxApiObject"]
     ? w[_cxApi]
-    : w[w["_cxApiObject"] = _cxApi] = function(experimentId, methodName, methodArgs, callback, errback, config) {
+    : w[w["_cxApiObject"] = _cxApi] = function(experimentId, methodName, methodArgs, config, callback, errback) {
       if (experimentId === undefined) {
         throw new Error("no experimentId provided");
       }
@@ -61,7 +61,7 @@
               _cxApiExperiment = _cxApi[experimentId] = (function(cxApi) {
                 delete w.cxApi;
 
-                return function(_methodName, _methodArgs, _callback, _errback) {
+                return function(_methodName, _methodArgs, _config, _callback, _errback) {
                   var result = _methodName === "cxApi" ? cxApi : cxApi[_methodName];
 
                   try {
@@ -98,7 +98,7 @@
 
           head.appendChild(script);
 
-          return function(_methodName, _methodArgs, _callback, _errback, _config) {
+          return function(_methodName, _methodArgs, _config, _callback, _errback) {
             var timeout = _config.timeout;
             var index = queue.push(this, arguments, timeout) - 1;
 
@@ -116,7 +116,7 @@
 
       _cxApiExperiment.call({
         "ts": new Date()
-      }, methodName || "cxApi", methodArgs || [], callback || config.callback || function() {}, errback || config.errback || function() {}, config);
+      }, methodName || "cxApi", methodArgs || [], config, callback || config.callback || function() {}, errback || config.errback || function() {});
 
       return _cxApi;
     };
