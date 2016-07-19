@@ -5,10 +5,11 @@
   var log = console.log.bind(console);
   var error = console.error.bind(console);
 
-  _cxApi("kydMaPQ6TuqWr1H7y4clDQ", log, error, 300 );
-  _cxApi("F4kE3XLcT0aH9z7d5xBcew", log, error, { "timeout": 300 });
-  _cxApi("QDLL1f5-QuyZW78tHnWsUg", log, error, function () { return 300; });
-  _cxApi("tE-sffLPTomwM2A5fSjWeg", log, error, function () { return { "timeout": 300 }});
+  window._cxApi = window._cxApi || function () { (_cxApi.q = _cxApi.q || []).push(new Date(), arguments) };
+  _cxApi("kydMaPQ6TuqWr1H7y4clDQ", "cxApi", [], log, error, 250 );
+  _cxApi("F4kE3XLcT0aH9z7d5xBcew", "cxApi", [], log, error, { "timeout": 500 });
+  _cxApi("QDLL1f5-QuyZW78tHnWsUg", "cxApi", [], log, error, function () { return 1000; });
+  _cxApi("tE-sffLPTomwM2A5fSjWeg", "cxApi", [], log, error, function () { return { "timeout": 2000 }});
   _cxApi("CJLfD6bdTvS2odoqjU_UXw");
   _cxApi("u_c--YMlRr2H3tS4JCVNMg");
   _cxApi("05jabbIlR4aH5CJPEg4Lzw");
@@ -39,10 +40,10 @@
   ga("experiment:chooseVariation", "F4kE3XLcT0aH9z7d5xBcew", log, error);
   ga("experiment:chooseVariation", "QDLL1f5-QuyZW78tHnWsUg", log, error);
   ga("experiment:chooseVariation", "tE-sffLPTomwM2A5fSjWeg", log, error);
-  ga("experiment:chooseVariation", "CJLfD6bdTvS2odoqjU_UXw", log, error, 300 );
-  ga("experiment:chooseVariation", "u_c--YMlRr2H3tS4JCVNMg", log, error, { "timeout": 300 });
-  ga("experiment:chooseVariation", "05jabbIlR4aH5CJPEg4Lzw", log, error, function () { return 300; });
-  ga("experiment:chooseVariation", "AlPdNSzYQhGN-U3jVy-6IA", log, error, function () { return { "timeout": 300 }});
+  ga("experiment:chooseVariation", "CJLfD6bdTvS2odoqjU_UXw", log, error, 2000 );
+  ga("experiment:chooseVariation", "u_c--YMlRr2H3tS4JCVNMg", log, error, { "timeout": 1000 });
+  ga("experiment:chooseVariation", "05jabbIlR4aH5CJPEg4Lzw", log, error, function () { return 500; });
+  ga("experiment:chooseVariation", "AlPdNSzYQhGN-U3jVy-6IA", log, error, function () { return { "timeout": 250 }});
   </script>
   <script src="analytics.js" async="true"></script>
 </head>
