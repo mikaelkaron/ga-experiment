@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
   <script src="api.js"></script>
-  <script src="hash.js"></script>
+  <script src="qs.js"></script>
 
   <script>
   var log = console.log.bind(console);
@@ -13,9 +13,9 @@
   ga("require", "experiment");
 
   [ "kydMaPQ6TuqWr1H7y4clDQ", "F4kE3XLcT0aH9z7d5xBcew" ].forEach(function (experimentId) {
-    ga("experiment:chooseVariation", "kydMaPQ6TuqWr1H7y4clDQ", null, function (variant) {
+    ga("experiment:chooseVariation", experimentId, null, function (variant) {
       log(experimentId, variant);
-    }, error);    
+    }, error);
   });
   </script>
   <script src="analytics.js" async="true"></script>
