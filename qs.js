@@ -3,7 +3,7 @@
   var re = /^experiment=(\w+):(\d+)/;
   var _cxApiObject = w["_cxApiObject"] || _cxApi;
   var _cxApiProxy = w[_cxApiObject];
-  var params = w.location.hash
+  var params = (w.location.hash || w.location.search)
     .replace(/.*\?/, "")
     .split("&")
     .reduce(function(result, param) {
