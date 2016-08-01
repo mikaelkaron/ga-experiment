@@ -10,7 +10,7 @@
       var matches = param.match(re);
 
       if (matches !== null) {
-        result[matches[1]] = matches[2];
+        result[matches[1]] = parseInt(matches[2]);
       }
 
       return result;
@@ -21,9 +21,13 @@
       case "getChosenVariation":
       case "setChosenVariation":
       case "chooseVariation":
-        if (params.hasOwnProperty(experimentId)) {
-          (callback || noop)(params[experimentId]);
-          break;
+        try {
+          if (params.hasOwnProperty(experimentId)) {
+            (callback || noop)(params[experimentId]);
+            break;
+          }
+        } catch (e) {
+          (errback || noop)(e);
         }
 
       default:
