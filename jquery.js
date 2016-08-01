@@ -1,5 +1,5 @@
 jQuery(function($) {
-  var noop = function() {};
+  var noop = $.noop;
 
   $(document)
     .on({
