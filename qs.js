@@ -1,6 +1,6 @@
 (function(w, _cxApi) {
   var noop = function() {};
-  var re = /^experiment=(\w+):(\d+)/;
+  var re = /^experiment=([\w-]+):(\d+)/;
   var _cxApiObject = w["_cxApiObject"] || _cxApi;
   var _cxApiProxy = w[_cxApiObject];
   var params = (w.location.hash || w.location.search)
